@@ -1,0 +1,578 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBKutuphaneYonetimModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TableCezalar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UYE" Type="int" />
+          <Property Name="BASLANGIC" Type="smalldatetime" />
+          <Property Name="BITIS" Type="smalldatetime" />
+          <Property Name="PARA" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="HAREKET" Type="int" />
+        </EntityType>
+        <EntityType Name="TableHareket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KITAP" Type="int" />
+          <Property Name="UYE" Type="int" />
+          <Property Name="PERSONEL" Type="int" />
+          <Property Name="ALISTARIH" Type="smalldatetime" />
+          <Property Name="IADETARIH" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="TableKasa">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AY" Type="varchar" MaxLength="50" />
+          <Property Name="TUTAR" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="TableKategori">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="TableKitap">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD" Type="varchar" MaxLength="50" />
+          <Property Name="KATEGORI" Type="tinyint" />
+          <Property Name="YAZAR" Type="int" />
+          <Property Name="BASIMYIL" Type="char" MaxLength="10" />
+          <Property Name="YAYINEVI" Type="varchar" MaxLength="50" />
+          <Property Name="SAYFA" Type="varchar" MaxLength="50" />
+          <Property Name="DURUM" Type="bit" />
+        </EntityType>
+        <EntityType Name="TablePersonel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PERSONEL" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TableUyeler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD" Type="varchar" MaxLength="50" />
+          <Property Name="SOYAD" Type="varchar" MaxLength="50" />
+          <Property Name="MAIL" Type="varchar" MaxLength="50" />
+          <Property Name="KULLANICIADI" Type="varchar" MaxLength="50" />
+          <Property Name="SIFRE" Type="varchar" MaxLength="50" />
+          <Property Name="TELEFON" Type="varchar" MaxLength="50" />
+          <Property Name="OKUL" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TableYazar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD" Type="varchar" MaxLength="30" />
+          <Property Name="SOYAD" Type="varchar" MaxLength="30" />
+          <Property Name="DETAY" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <Association Name="FK_TableCezalar_TableHareket">
+          <End Role="TableHareket" Type="Self.TableHareket" Multiplicity="0..1" />
+          <End Role="TableCezalar" Type="Self.TableCezalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableHareket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableCezalar">
+              <PropertyRef Name="HAREKET" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableCezalar_TableUyeler">
+          <End Role="TableUyeler" Type="Self.TableUyeler" Multiplicity="0..1" />
+          <End Role="TableCezalar" Type="Self.TableCezalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableUyeler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableCezalar">
+              <PropertyRef Name="UYE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableHareket_TableKitap">
+          <End Role="TableKitap" Type="Self.TableKitap" Multiplicity="0..1" />
+          <End Role="TableHareket" Type="Self.TableHareket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableKitap">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableHareket">
+              <PropertyRef Name="KITAP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableHareket_TablePersonel">
+          <End Role="TablePersonel" Type="Self.TablePersonel" Multiplicity="0..1" />
+          <End Role="TableHareket" Type="Self.TableHareket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TablePersonel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableHareket">
+              <PropertyRef Name="PERSONEL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableHareket_TableUyeler">
+          <End Role="TableUyeler" Type="Self.TableUyeler" Multiplicity="0..1" />
+          <End Role="TableHareket" Type="Self.TableHareket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableUyeler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableHareket">
+              <PropertyRef Name="UYE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableKitap_TableKategori">
+          <End Role="TableKategori" Type="Self.TableKategori" Multiplicity="0..1" />
+          <End Role="TableKitap" Type="Self.TableKitap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableKategori">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableKitap">
+              <PropertyRef Name="KATEGORI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableKitap_TableYazar">
+          <End Role="TableYazar" Type="Self.TableYazar" Multiplicity="0..1" />
+          <End Role="TableKitap" Type="Self.TableKitap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableYazar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableKitap">
+              <PropertyRef Name="YAZAR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBKutuphaneYonetimModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableCezalar" EntityType="Self.TableCezalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableHareket" EntityType="Self.TableHareket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableKasa" EntityType="Self.TableKasa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableKategori" EntityType="Self.TableKategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableKitap" EntityType="Self.TableKitap" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TablePersonel" EntityType="Self.TablePersonel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableUyeler" EntityType="Self.TableUyeler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableYazar" EntityType="Self.TableYazar" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TableCezalar_TableHareket" Association="Self.FK_TableCezalar_TableHareket">
+            <End Role="TableHareket" EntitySet="TableHareket" />
+            <End Role="TableCezalar" EntitySet="TableCezalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableCezalar_TableUyeler" Association="Self.FK_TableCezalar_TableUyeler">
+            <End Role="TableUyeler" EntitySet="TableUyeler" />
+            <End Role="TableCezalar" EntitySet="TableCezalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableHareket_TableKitap" Association="Self.FK_TableHareket_TableKitap">
+            <End Role="TableKitap" EntitySet="TableKitap" />
+            <End Role="TableHareket" EntitySet="TableHareket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableHareket_TablePersonel" Association="Self.FK_TableHareket_TablePersonel">
+            <End Role="TablePersonel" EntitySet="TablePersonel" />
+            <End Role="TableHareket" EntitySet="TableHareket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableHareket_TableUyeler" Association="Self.FK_TableHareket_TableUyeler">
+            <End Role="TableUyeler" EntitySet="TableUyeler" />
+            <End Role="TableHareket" EntitySet="TableHareket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableKitap_TableKategori" Association="Self.FK_TableKitap_TableKategori">
+            <End Role="TableKategori" EntitySet="TableKategori" />
+            <End Role="TableKitap" EntitySet="TableKitap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableKitap_TableYazar" Association="Self.FK_TableKitap_TableYazar">
+            <End Role="TableYazar" EntitySet="TableYazar" />
+            <End Role="TableKitap" EntitySet="TableKitap" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBKutuphaneYonetimModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TableCezalar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UYE" Type="Int32" />
+          <Property Name="BASLANGIC" Type="DateTime" Precision="0" />
+          <Property Name="BITIS" Type="DateTime" Precision="0" />
+          <Property Name="PARA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HAREKET" Type="Int32" />
+          <NavigationProperty Name="TableHareket" Relationship="Self.FK_TableCezalar_TableHareket" FromRole="TableCezalar" ToRole="TableHareket" />
+          <NavigationProperty Name="TableUyeler" Relationship="Self.FK_TableCezalar_TableUyeler" FromRole="TableCezalar" ToRole="TableUyeler" />
+        </EntityType>
+        <EntityType Name="TableHareket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KITAP" Type="Int32" />
+          <Property Name="UYE" Type="Int32" />
+          <Property Name="PERSONEL" Type="Int32" />
+          <Property Name="ALISTARIH" Type="DateTime" Precision="0" />
+          <Property Name="IADETARIH" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="TableCezalar" Relationship="Self.FK_TableCezalar_TableHareket" FromRole="TableHareket" ToRole="TableCezalar" />
+          <NavigationProperty Name="TableKitap" Relationship="Self.FK_TableHareket_TableKitap" FromRole="TableHareket" ToRole="TableKitap" />
+          <NavigationProperty Name="TablePersonel" Relationship="Self.FK_TableHareket_TablePersonel" FromRole="TableHareket" ToRole="TablePersonel" />
+          <NavigationProperty Name="TableUyeler" Relationship="Self.FK_TableHareket_TableUyeler" FromRole="TableHareket" ToRole="TableUyeler" />
+        </EntityType>
+        <EntityType Name="TableKasa">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TUTAR" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="TableKategori">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TableKitap" Relationship="Self.FK_TableKitap_TableKategori" FromRole="TableKategori" ToRole="TableKitap" />
+        </EntityType>
+        <EntityType Name="TableKitap">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KATEGORI" Type="Byte" />
+          <Property Name="YAZAR" Type="Int32" />
+          <Property Name="BASIMYIL" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="YAYINEVI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SAYFA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DURUM" Type="Boolean" />
+          <NavigationProperty Name="TableHareket" Relationship="Self.FK_TableHareket_TableKitap" FromRole="TableKitap" ToRole="TableHareket" />
+          <NavigationProperty Name="TableKategori" Relationship="Self.FK_TableKitap_TableKategori" FromRole="TableKitap" ToRole="TableKategori" />
+          <NavigationProperty Name="TableYazar" Relationship="Self.FK_TableKitap_TableYazar" FromRole="TableKitap" ToRole="TableYazar" />
+        </EntityType>
+        <EntityType Name="TablePersonel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PERSONEL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TableHareket" Relationship="Self.FK_TableHareket_TablePersonel" FromRole="TablePersonel" ToRole="TableHareket" />
+        </EntityType>
+        <EntityType Name="TableUyeler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SOYAD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KULLANICIADI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SIFRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFON" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OKUL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TableCezalar" Relationship="Self.FK_TableCezalar_TableUyeler" FromRole="TableUyeler" ToRole="TableCezalar" />
+          <NavigationProperty Name="TableHareket" Relationship="Self.FK_TableHareket_TableUyeler" FromRole="TableUyeler" ToRole="TableHareket" />
+        </EntityType>
+        <EntityType Name="TableYazar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SOYAD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DETAY" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TableKitap" Relationship="Self.FK_TableKitap_TableYazar" FromRole="TableYazar" ToRole="TableKitap" />
+        </EntityType>
+        <Association Name="FK_TableCezalar_TableHareket">
+          <End Role="TableHareket" Type="Self.TableHareket" Multiplicity="0..1" />
+          <End Role="TableCezalar" Type="Self.TableCezalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableHareket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableCezalar">
+              <PropertyRef Name="HAREKET" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableCezalar_TableUyeler">
+          <End Role="TableUyeler" Type="Self.TableUyeler" Multiplicity="0..1" />
+          <End Role="TableCezalar" Type="Self.TableCezalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableUyeler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableCezalar">
+              <PropertyRef Name="UYE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableHareket_TableKitap">
+          <End Role="TableKitap" Type="Self.TableKitap" Multiplicity="0..1" />
+          <End Role="TableHareket" Type="Self.TableHareket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableKitap">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableHareket">
+              <PropertyRef Name="KITAP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableHareket_TablePersonel">
+          <End Role="TablePersonel" Type="Self.TablePersonel" Multiplicity="0..1" />
+          <End Role="TableHareket" Type="Self.TableHareket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TablePersonel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableHareket">
+              <PropertyRef Name="PERSONEL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableHareket_TableUyeler">
+          <End Role="TableUyeler" Type="Self.TableUyeler" Multiplicity="0..1" />
+          <End Role="TableHareket" Type="Self.TableHareket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableUyeler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableHareket">
+              <PropertyRef Name="UYE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableKitap_TableKategori">
+          <End Role="TableKategori" Type="Self.TableKategori" Multiplicity="0..1" />
+          <End Role="TableKitap" Type="Self.TableKitap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableKategori">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableKitap">
+              <PropertyRef Name="KATEGORI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableKitap_TableYazar">
+          <End Role="TableYazar" Type="Self.TableYazar" Multiplicity="0..1" />
+          <End Role="TableKitap" Type="Self.TableKitap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableYazar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableKitap">
+              <PropertyRef Name="YAZAR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBKutuphaneYonetimEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TableCezalar" EntityType="Self.TableCezalar" />
+          <EntitySet Name="TableHareket" EntityType="Self.TableHareket" />
+          <EntitySet Name="TableKasa" EntityType="Self.TableKasa" />
+          <EntitySet Name="TableKategori" EntityType="Self.TableKategori" />
+          <EntitySet Name="TableKitap" EntityType="Self.TableKitap" />
+          <EntitySet Name="TablePersonel" EntityType="Self.TablePersonel" />
+          <EntitySet Name="TableUyeler" EntityType="Self.TableUyeler" />
+          <EntitySet Name="TableYazar" EntityType="Self.TableYazar" />
+          <AssociationSet Name="FK_TableCezalar_TableHareket" Association="Self.FK_TableCezalar_TableHareket">
+            <End Role="TableHareket" EntitySet="TableHareket" />
+            <End Role="TableCezalar" EntitySet="TableCezalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableCezalar_TableUyeler" Association="Self.FK_TableCezalar_TableUyeler">
+            <End Role="TableUyeler" EntitySet="TableUyeler" />
+            <End Role="TableCezalar" EntitySet="TableCezalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableHareket_TableKitap" Association="Self.FK_TableHareket_TableKitap">
+            <End Role="TableKitap" EntitySet="TableKitap" />
+            <End Role="TableHareket" EntitySet="TableHareket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableHareket_TablePersonel" Association="Self.FK_TableHareket_TablePersonel">
+            <End Role="TablePersonel" EntitySet="TablePersonel" />
+            <End Role="TableHareket" EntitySet="TableHareket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableHareket_TableUyeler" Association="Self.FK_TableHareket_TableUyeler">
+            <End Role="TableUyeler" EntitySet="TableUyeler" />
+            <End Role="TableHareket" EntitySet="TableHareket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableKitap_TableKategori" Association="Self.FK_TableKitap_TableKategori">
+            <End Role="TableKategori" EntitySet="TableKategori" />
+            <End Role="TableKitap" EntitySet="TableKitap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableKitap_TableYazar" Association="Self.FK_TableKitap_TableYazar">
+            <End Role="TableYazar" EntitySet="TableYazar" />
+            <End Role="TableKitap" EntitySet="TableKitap" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBKutuphaneYonetimModelStoreContainer" CdmEntityContainer="DBKutuphaneYonetimEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableCezalar">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.TableCezalar">
+              <MappingFragment StoreEntitySet="TableCezalar">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UYE" ColumnName="UYE" />
+                <ScalarProperty Name="BASLANGIC" ColumnName="BASLANGIC" />
+                <ScalarProperty Name="BITIS" ColumnName="BITIS" />
+                <ScalarProperty Name="PARA" ColumnName="PARA" />
+                <ScalarProperty Name="HAREKET" ColumnName="HAREKET" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableHareket">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.TableHareket">
+              <MappingFragment StoreEntitySet="TableHareket">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="KITAP" ColumnName="KITAP" />
+                <ScalarProperty Name="UYE" ColumnName="UYE" />
+                <ScalarProperty Name="PERSONEL" ColumnName="PERSONEL" />
+                <ScalarProperty Name="ALISTARIH" ColumnName="ALISTARIH" />
+                <ScalarProperty Name="IADETARIH" ColumnName="IADETARIH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableKasa">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.TableKasa">
+              <MappingFragment StoreEntitySet="TableKasa">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AY" ColumnName="AY" />
+                <ScalarProperty Name="TUTAR" ColumnName="TUTAR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableKategori">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.TableKategori">
+              <MappingFragment StoreEntitySet="TableKategori">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AD" ColumnName="AD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableKitap">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.TableKitap">
+              <MappingFragment StoreEntitySet="TableKitap">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AD" ColumnName="AD" />
+                <ScalarProperty Name="KATEGORI" ColumnName="KATEGORI" />
+                <ScalarProperty Name="YAZAR" ColumnName="YAZAR" />
+                <ScalarProperty Name="BASIMYIL" ColumnName="BASIMYIL" />
+                <ScalarProperty Name="YAYINEVI" ColumnName="YAYINEVI" />
+                <ScalarProperty Name="SAYFA" ColumnName="SAYFA" />
+                <ScalarProperty Name="DURUM" ColumnName="DURUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TablePersonel">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.TablePersonel">
+              <MappingFragment StoreEntitySet="TablePersonel">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PERSONEL" ColumnName="PERSONEL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableUyeler">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.TableUyeler">
+              <MappingFragment StoreEntitySet="TableUyeler">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AD" ColumnName="AD" />
+                <ScalarProperty Name="SOYAD" ColumnName="SOYAD" />
+                <ScalarProperty Name="MAIL" ColumnName="MAIL" />
+                <ScalarProperty Name="KULLANICIADI" ColumnName="KULLANICIADI" />
+                <ScalarProperty Name="SIFRE" ColumnName="SIFRE" />
+                <ScalarProperty Name="TELEFON" ColumnName="TELEFON" />
+                <ScalarProperty Name="OKUL" ColumnName="OKUL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableYazar">
+            <EntityTypeMapping TypeName="DBKutuphaneYonetimModel.TableYazar">
+              <MappingFragment StoreEntitySet="TableYazar">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AD" ColumnName="AD" />
+                <ScalarProperty Name="SOYAD" ColumnName="SOYAD" />
+                <ScalarProperty Name="DETAY" ColumnName="DETAY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
