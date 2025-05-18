@@ -30,5 +30,31 @@ namespace MvcKutuphaneYonetim.Controllers
             db.SaveChanges();
             return View();
         }
+
+        public ActionResult YazarSil(int id)
+        {
+            var yazar = db.TableYazar.Find(id);
+            db.TableYazar.Remove(yazar);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult YazarGuncelle(int id)
+        {
+            var yazar = db.TableYazar.Find(id);
+            return View("YazarGuncelle" , yazar);
+        }
+
+        public ActionResult YazarKayitGuncelle()
+        {
+            var yazar = db.TableYazar.Find(id);
+            yazar
+            yazar
+            yazar
+            yazar
+            yazar
+            
+        }
+
     }
 }
