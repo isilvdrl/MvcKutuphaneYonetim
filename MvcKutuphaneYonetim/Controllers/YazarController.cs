@@ -45,14 +45,16 @@ namespace MvcKutuphaneYonetim.Controllers
             return View("YazarGuncelle" , yazar);
         }
 
-        public ActionResult YazarKayitGuncelle()
+        public ActionResult YazarKayitGuncelle(TableYazar yzr)
         {
-            var yazar = db.TableYazar.Find(id);
-            yazar
-            yazar
-            yazar
-            yazar
-            yazar
+            var yazar = db.TableYazar.Find(yzr.ID);
+
+            yazar.AD = yzr.AD;
+            yazar.SOYAD = yzr.SOYAD;
+            yazar.DETAY = yzr.DETAY;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
             
         }
 

@@ -27,7 +27,7 @@
             <td>@yzr.SOYAD</td>
             <td>@yzr.DETAY</td>
             <td>@Html.ActionLink("Sil", "YazarSil", new { id = yzr.ID }, new {@class= "btn btn-danger" , onclick = "return confirm('Kaydı Silmek İstiyor Musunuz?')" } )</td>
-            <td>@yzr.DETAY</td>
+            <td><a href="/Yazar/YazarGuncelle/@yzr.ID" class="btn btn-success">Güncelle</a> </td>
         </tr>
     }
 
